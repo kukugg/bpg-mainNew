@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.bpg.main</groupId>
+  <artifactId>bpg-main</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>bpg-main</name>
+  <description>主项目</description>
+  
+    <!-- 指定jdk版本 -->
+  <properties>
+  	 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	 <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+ 	 <java.version>1.8</java.version>
+   </properties>
+  
+  <!-- 使用2.0.2版本 -->
+  <parent>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-parent</artifactId>
+     <version>2.0.2.RELEASE</version>
+   </parent>
+   
+  
+  
+  <modules>
+  	<module>bpg-bpglr</module>
+  	<module>bpg-lrService</module>
+    <module>bpg-lrDaoImpl</module>
+    <module>bpg-lrDao</module>
+    <module>bpg-lrServiceImpl</module>
+    <module>bpg-common</module>
+  </modules>
+  
+   <dependencies>
+   		 <!-- web支持 -->
+     <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-web</artifactId>
+     </dependency>
+     
+     <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-test</artifactId>
+       <scope>test</scope>
+     </dependency>
+     
+     <!-- 热部署 -->
+	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
+    </dependency> 
+    
+    <!-- mysql驱动 -->
+    <dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    
+    <!-- druid驱动 -->
+    <dependency>
+       <groupId>com.alibaba</groupId>
+       <artifactId>druid</artifactId>
+       <version>1.1.10</version>
+	</dependency>
+	
+	<!--   spring-bootmybatis依赖 -->
+	 <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>1.3.1</version>
+      </dependency>
+    
+    <!-- pagehelper分页插件 -->
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper-spring-boot-starter</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+    
+      <!-- 自动生成 dao xml文件配置 -->
+      <dependency>
+         <groupId>org.mybatis.generator</groupId>
+         <artifactId>mybatis-generator</artifactId>
+         <version>1.3.5</version>
+         <type>pom</type>
+      </dependency>
+      <dependency>
+         <groupId>org.mybatis.generator</groupId>
+         <artifactId>mybatis-generator-core</artifactId>
+         <version>1.3.5</version>
+      </dependency>
+      
+      <!-- 使用thymeleaf 模板-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+   </dependency>
+      
+   <!-- shiro依赖 -->   
+    <dependency>  
+         <groupId>org.apache.shiro</groupId>  
+         <artifactId>shiro-spring</artifactId>  
+         <version>1.4.0</version>  
+    </dependency> 
+     
+     <!-- shiro ehcache -->
+    <dependency>
+         <groupId>org.apache.shiro</groupId>
+         <artifactId>shiro-ehcache</artifactId>
+         <version>1.4.0</version>
+     </dependency>
+
+       
+       <!--
+		           包含支持UI模版（Velocity，FreeMarker，JasperReports），
+		           邮件服务，
+		           脚本服务(JRuby)，
+		           缓存Cache（EHCache），
+		           任务计划Scheduling（uartz）
+        -->
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+      </dependency>
+      
+      <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+	
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.6</version>
+	</dependency>
+	
+	<!-- excel -->
+	<dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.9</version>
+	</dependency>
+	<dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.3.1</version>
+	</dependency>
+	<dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+	</dependency>
+       
+   </dependencies>
+  
+  
+  <!-- 阿里云maven仓库 -->
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    
+</project>

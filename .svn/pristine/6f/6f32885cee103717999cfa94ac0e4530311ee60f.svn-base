@@ -1,0 +1,35 @@
+package com.bpg.lr.serviceImpl.importTest;
+
+
+import java.io.InputStream;
+
+import org.bpg.common.utils.RRException;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.bpg.lr.service.importTest.ImprotTestService;
+
+/**
+ * 测试上传类实现类
+ * @author hanjp
+ *
+ */
+public class ImprotTestServiceImpl implements ImprotTestService {
+
+	@Override
+	public boolean batchImport(String fileName, MultipartFile file) throws Exception {
+	    boolean notNull = false;
+        if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
+            throw new RRException("上传文件格式不正确");
+        }
+        boolean isExcel2003 = true;
+        if (fileName.matches("^.+\\.(?i)(xlsx)$")) {
+            isExcel2003 = false;
+        }
+        InputStream is = file.getInputStream();
+        
+        
+        
+        return notNull;
+	}
+
+}

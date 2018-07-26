@@ -1,0 +1,89 @@
+#端口
+server:
+  port: 8080
+
+#访问路径
+
+
+#关闭模板缓存
+spring:
+  thymeleaf:
+    cache: false
+    
+
+#数据源配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/testfdb2?characterEncoding=utf8&useSSL=false
+    username: root
+    password: test123
+    #初始化大小，最小，最大，超时链接，空闲时间，生产时间，pscache
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20  
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROMDUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+#配置模板目录    
+  mvc:
+    view:
+      prefix: classpath:/templates/**
+      #给返回的页面定义后缀名
+      suffix: .html 
+#指定mybatis扫描路径
+mybatis:
+  mapper-locations: classpath*:com/bpg/lr/*/model/mapper/*.xml 
+
+#pagehelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  returnPageInfo: check
+  
+#配置loger输出路径 默认不输出 ，默认级别为：ERROR、WARN、INFO
+logging:
+  file: /bpglrLog/bpglr.log 
+  level.com.bpg.lr: debug
+    
+
+  
+
+
+
+ 
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

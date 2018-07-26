@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpg.lr.login.dao.SysDeptDao">
+  <resultMap id="BaseResultMap" type="com.bpg.lr.login.model.SysDept">
+    <id column="dept_id" jdbcType="BIGINT" property="deptId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="parentName" jdbcType="VARCHAR" property="parentName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dept_id, parent_id, name, order_num, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_dept
+    where dept_id = #{deptId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_dept
+    where dept_id = #{deptId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bpg.lr.login.model.SysDept">
+    insert into sys_dept (dept_id, parent_id, name, 
+      order_num, del_flag)
+    values (#{deptId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{orderNum,jdbcType=INTEGER}, #{delFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpg.lr.login.model.SysDept">
+    insert into sys_dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpg.lr.login.model.SysDept">
+    update sys_dept
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where dept_id = #{deptId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpg.lr.login.model.SysDept">
+    update sys_dept
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=TINYINT}
+    where dept_id = #{deptId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询部门，如果id不为null，查询当前和下级部门 -->
+  	<select id="getAllDeptList" resultMap="BaseResultMap">
+  		SELECT
+			sd.*, (
+				SELECT
+					sdp. NAME
+				FROM
+					sys_dept sdp
+				WHERE
+					sdp.dept_id = sd.parent_id
+			) parentName
+		FROM
+			sys_dept sd
+		WHERE
+			del_flag  <![CDATA[ <> ]]>  - 1
+			
+			<if test="deptId != null and deptId !='' ">
+			and FIND_IN_SET(dept_id,queryChildrenAreaInfo(#{deptId}))
+			</if>
+			order by sd.order_num
+  		
+	</select>
+	
+	  <!-- 查询当前部门信息 -->
+  	<select id="findDeptByDeptId" resultMap="BaseResultMap">
+  		SELECT
+			sd.*, (
+				SELECT
+					sdp. NAME
+				FROM
+					sys_dept sdp
+				WHERE
+					sdp.dept_id = sd.parent_id
+			) parentName
+		FROM
+			sys_dept sd
+		WHERE
+			del_flag  <![CDATA[ <> ]]>  - 1
+			
+			<if test="deptId != null and deptId !='' ">
+				and sd.dept_id = #{deptId}
+			</if>
+			order by sd.order_num
+  		
+	</select>
+	
+	<!-- 删除部门 标志位重置为-1 -->
+	 <update id="updateByDeptId" >
+	    update sys_dept
+	    <set>
+	      
+	        del_flag = -1,
+	     
+	    </set>
+	    where dept_id = #{deptId}
+  </update>
+	
+</mapper>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/style-login.css" rel='stylesheet' type='text/css' />
+<style type="text/css">
+[v-cloak] {
+  display: none;
+}
+</style>
+</head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<body>
+	<h1>管 理 平 台</h1>
+	<h5>PLATFORM SYSTEM</h5>
+	<div class="login-form" id="loginForm" v-cloak>
+		<div class="close" onclick="resetform()" title="重置"></div>
+		<div class="head-info">
+			<!-- 预留主题切换 -->
+			<label class="lbl-1"> </label> <label class="lbl-2"> </label> <label
+				class="lbl-3"> </label>
+		</div>
+		<!-- 不允许浮动元素 -->
+		<div class="clear"></div>
+		<div class="avatar">
+			<img src="images/login/avatar.png" />
+		</div>
+	   <div v-if="error" >
+	       <h4 style="margin-bottom: 0px;color: red"> {{errorMsg}}</h4>
+	    </div>
+		<input type="text" v-model="username" placeholder="账号">
+		<input type="password" v-model="password" placeholder="密码">
+         	<button type="button" class="btn btn-primary btn-block btn-flat" @click="login" >登录</button>
+	</div>
+	<div class="copy-rights" >
+		<p>
+			<a><font color="black">Copyright &copy; 2018 V1.1.Company BPG all rights reserved.</font></a>
+		</p>
+	</div>
+<script src="libs/jquery-3.3.1.min.js"></script>
+<script src="libs/vue.min.js"></script>
+<script src="libs/bootstrap.min.js"></script>
+<script>
+var vm = new Vue({
+	el:'#loginForm',
+	data:{
+		username: '',
+		password: '',
+		error: false,
+		errorMsg: ''
+	},
+	beforeCreate: function(){
+		if(self != top){
+			top.location.href = self.location.href;
+		}
+	},
+	methods: {
+		login: function (event) {
+			loginMethod();
+		}
+	},
+	created:function(){
+		// 主页添加键盘事件,注意,不能直接在焦点事件上添加回车
+		document.onkeydown=function(e){
+			var key=window.event.keyCode;
+			if(key==13){
+				loginMethod();
+			}
+	  }
+    }
+});
+
+var loginMethod = function () {
+	if (vm.username === "" || vm.username === null || vm.password === "" || vm.password === null) {
+		vm.error = true;
+		vm.errorMsg  = "请输入账户或密码";
+		return false;
+	}
+	var data = "username="+vm.username+"&password="+vm.password;
+	$.ajax({
+		type: "POST",
+	    url: "/loginUser",
+	    data: data,
+	    dataType: "json",
+	    success: function(result){
+			 if(result.code == 0){//登录成功
+		 		parent.location.href ='/index';
+			}else{
+				vm.error = true;
+				vm.errorMsg = result.msg;
+			} 
+		}
+	});
+};
+		
+
+</script>
+</body>
+</html>
