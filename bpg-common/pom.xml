@@ -6,6 +6,7 @@
     <groupId>com.bpg.main</groupId>
     <artifactId>bpg-main</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>bpg-common</artifactId>
   <name>bpg-common</name>
